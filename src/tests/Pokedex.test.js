@@ -19,8 +19,6 @@ describe('Testa o componente Pokedex', () => {
     it('Testa se os próximos Pokémon da lista devem ser mostrados, um a um, ao clicar sucessivamente no botão', () => {
       renderWithRouter(<App />);
       const nextPokemon = screen.getByRole('button', { name: /próximo pokémon/i });
-      const pikachu = screen.getByText(/pikachu/i);
-      expect(pikachu).toBeInTheDocument();
       userEvent.click(nextPokemon);
       const charmander = screen.getByText(/charmander/i);
       expect(charmander).toBeInTheDocument();
@@ -45,6 +43,9 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(nextPokemon);
       const dragonair = screen.getByText(/dragonair/i);
       expect(dragonair).toBeInTheDocument();
+      userEvent.click(nextPokemon);
+      const pikachu = screen.getByText(/pikachu/i);
+      expect(pikachu).toBeInTheDocument();
     });
     it('Testa se o primeiro Pokémon da lista deve ser mostrado ao clicar no botão, se estiver no último Pokémon da lista', () => {
       renderWithRouter(<App />);
@@ -76,6 +77,7 @@ describe('Testa o componente Pokedex', () => {
     it('Testa cada botão de filtragem para cada tipo de Pokémon, bem como o botão all', () => {
       renderWithRouter(<App />);
       const allFilterButton = screen.queryAllByTestId('pokemon-type-button');
+      expect(allFilterButton).toHaveLength(7);
       const allButton = screen.getByRole('button', { name: /all/i });
       const nextPokemon = screen.getByRole('button', { name: /próximo pokémon/i });
 
@@ -84,6 +86,7 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(eletricButton);
       const pikachu = screen.getByText(/pikachu/i);
       expect(pikachu).toBeInTheDocument();
+      expect(eletricButton.textContent).toBe('Electric');
       expect(allButton).toBeInTheDocument();
       expect(nextPokemon).toHaveProperty('disabled', true);
 
@@ -92,10 +95,12 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(fireButton);
       const charmander = screen.getByText(/charmander/i);
       expect(charmander).toBeInTheDocument();
+      expect(fireButton.textContent).toBe('Fire');
       expect(allButton).toBeInTheDocument();
       userEvent.click(nextPokemon);
       const rapidash = screen.getByText(/rapidash/i);
       expect(rapidash).toBeInTheDocument();
+      expect(fireButton.textContent).toBe('Fire');
       expect(allButton).toBeInTheDocument();
 
       const bugButton = allFilterButton[2];
@@ -103,6 +108,7 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(bugButton);
       const caterpie = screen.getByText(/caterpie/i);
       expect(caterpie).toBeInTheDocument();
+      expect(bugButton.textContent).toBe('Bug');
       expect(allButton).toBeInTheDocument();
       expect(nextPokemon).toHaveProperty('disabled', true);
 
@@ -111,6 +117,7 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(poisonButton);
       const ekans = screen.getByText(/ekans/i);
       expect(ekans).toBeInTheDocument();
+      expect(poisonButton.textContent).toBe('Poison');
       expect(allButton).toBeInTheDocument();
       expect(nextPokemon).toHaveProperty('disabled', true);
 
@@ -119,10 +126,12 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(psychicButton);
       const alakazam = screen.getByText(/alakazam/i);
       expect(alakazam).toBeInTheDocument();
+      expect(psychicButton.textContent).toBe('Psychic');
       expect(allButton).toBeInTheDocument();
       userEvent.click(nextPokemon);
       const mew = screen.getByText(/mew/i);
       expect(mew).toBeInTheDocument();
+      expect(psychicButton.textContent).toBe('Psychic');
       expect(allButton).toBeInTheDocument();
 
       const normalButton = allFilterButton[5];
@@ -130,6 +139,7 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(normalButton);
       const snorlax = screen.getByText(/snorlax/i);
       expect(snorlax).toBeInTheDocument();
+      expect(normalButton.textContent).toBe('Normal');
       expect(allButton).toBeInTheDocument();
       expect(nextPokemon).toHaveProperty('disabled', true);
 
@@ -138,6 +148,7 @@ describe('Testa o componente Pokedex', () => {
       userEvent.click(dragonButton);
       const dragonair = screen.getByText(/dragonair/i);
       expect(dragonair).toBeInTheDocument();
+      expect(dragonButton.textContent).toBe('Dragon');
       expect(allButton).toBeInTheDocument();
       expect(nextPokemon).toHaveProperty('disabled', true);
     });
